@@ -1,4 +1,4 @@
-const { user } = require("../../models");
+const { User } = require("../../models");
 const joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -24,7 +24,7 @@ exports.regitrasi = async (req, res) => {
       });
     }
 
-    const registeredUser = await user.findOne({
+    const registeredUser = await User.findOne({
       where: {
         Email,
       },
@@ -40,7 +40,7 @@ exports.regitrasi = async (req, res) => {
     const hashStrenght = 10;
     const hashedPassword = await bcrypt.hash(Password, hashStrenght);
 
-    const dataUser = await user.create({
+    const dataUser = await User.create({
       ...data,
       Password: hashedPassword,
     });
@@ -56,7 +56,7 @@ exports.regitrasi = async (req, res) => {
     res.send({
       status: "Success",
       data: {
-        user: {
+        User: {
           Email: dataUser.Email,
           Name: dataUser.Name,
           token,
@@ -90,7 +90,7 @@ exports.login = async (req, res) => {
       });
     }
 
-    const registeredUser = await user.findOne({
+    const registeredUser = await User.findOne({
       where: {
         Email,
       },
